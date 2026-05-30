@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="jqdf 工具导航 - 精选免费、免注册、开箱即用的实用在线工具集合">
+  <meta name="keywords" content="免费工具, 在线PS, PDF转换, 图片压缩, OCR识别, 免注册, 工具导航">
+  <title>jqdf 工具导航 | 免费实用在线工具合集</title>
+  <style>
+    :root {
+      --bg: #f8f9fa; --card-bg: #ffffff; --text: #111827; --text-light: #6b7280;
+      --primary: #2563eb; --primary-hover: #1d4ed8; --border: #e5e7eb;
+      --shadow: 0 4px 12px rgba(0,0,0,0.06); --radius: 12px;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0f172a; --card-bg: #1e293b; --text: #e2e8f0; --text-light: #94a3b8;
+        --border: #334155; --shadow: 0 4px 12px rgba(0,0,0,0.3);
+      }
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; padding: 20px; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    
+    header { text-align: center; margin-bottom: 30px; padding: 20px 0; }
+    h1 { font-size: 2rem; margin-bottom: 6px; letter-spacing: -0.5px; }
+    .subtitle { color: var(--text-light); font-size: 0.95rem; }
+    
+    .search-box { margin: 20px auto; max-width: 480px; position: relative; }
+    .search-box input {
+      width: 100%; padding: 14px 20px; border: 2px solid var(--border); border-radius: 50px;
+      font-size: 1rem; background: var(--card-bg); color: var(--text); outline: none; transition: 0.2s;
+    }
+    .search-box input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37,99,235,0.15); }
+
+    .filters { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 25px; }
+    .filter-btn {
+      padding: 8px 16px; border: 1px solid var(--border); background: var(--card-bg); border-radius: 20px;
+      cursor: pointer; color: var(--text); font-size: 0.9rem; transition: 0.2s;
+    }
+    .filter-btn:hover, .filter-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 18px; margin-bottom: 30px; }
+    .card {
+      background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 18px; transition: transform 0.2s, box-shadow 0.2s; position: relative; overflow: hidden;
+    }
+    .card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+    .card h3 { font-size: 1.05rem; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+    .card h3 a { color: var(--text); text-decoration: none; }
+    .card h3 a:hover { color: var(--primary); }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 10px; }
+    .tag { font-size: 0.72rem; padding: 3px 8px; background: rgba(37,99,235,0.1); color: var(--primary); border-radius: 10px; }
+    .desc { font-size: 0.85rem; color: var(--text-light); margin-bottom: 12px; min-height: 40px; }
+    .visit-btn {
+      display: inline-block; padding: 7px 14px; background: var(--primary); color: #fff;
+      text-decoration: none; border-radius: 8px; font-size: 0.85rem; transition: 0.2s; width: 100%; text-align: center;
+    }
+    .visit-btn:hover { background: var(--primary-hover); }
+
+    .ad-placeholder {
+      background: var(--card-bg); border: 2px dashed var(--border); border-radius: var(--radius);
+      padding: 25px; text-align: center; color: var(--text-light); margin: 20px 0; font-size: 0.85rem;
+    }
+    footer { text-align: center; padding: 25px 0; color: var(--text-light); font-size: 0.8rem; border-top: 1px solid var(--border); margin-top: 20px; }
+    footer a { color: var(--primary); text-decoration: none; }
+    .no-results { text-align: center; padding: 40px; color: var(--text-light); display: none; font-size: 1rem; }
+
+    @media (max-width: 600px) {
+      .grid { grid-template-columns: 1fr; }
+      h1 { font-size: 1.6rem; }
+      .filter-btn { font-size: 0.85rem; padding: 6px 12px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🛠️ jqdf 工具导航</h1>
+      <p class="subtitle">精选免费 · 免注册 · 开箱即用的实用在线工具</p>
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="搜索工具名称、功能或标签...">
+      </div>
+    </header>
+
+    <div class="filters" id="filterContainer">
+      <button class="filter-btn active" data-cat="all">全部</button>
+      <button class="filter-btn" data-cat="image">🖼️ 图片处理</button>
+      <button class="filter-btn" data-cat="video">🎬 视频/音频</button>
+      <button class="filter-btn" data-cat="pdf">📄 PDF/文档</button>
+      <button class="filter-btn" data-cat="ocr">🔤 OCR/文字</button>
+      <button class="filter-btn" data-cat="dev">💻 开发/设计</button>
+    </div>
+
+    <div class="grid" id="toolsGrid"></div>
+    <div class="no-results" id="noResults">未找到匹配的工具，请尝试其他关键词</div>
+
+    <div class="ad-placeholder" id="ad-mid">📢 广告位预留 (接入联盟后替换此处)</div>
+
+    <footer>
+      <p>© 2026 <a href="https://jqdf.com">jqdf.com</a> | 工具版权归原作者，本站仅作导航收录</p>
+      <p>🔒 本站不收集任何用户数据，隐私安全 | <a href="#">反馈建议</a> | <a href="#">隐私政策</a></p>
+    </footer>
+  </div>
+
+  <script>
+    // 📦 工具数据池（按需增删，保持格式一致即可）
+    const tools = [
+      { name: "Photopea", url: "https://www.photopea.com/", cat: "image", tags: "在线PS, PSD, 免注册", desc: "浏览器版Photoshop，支持PSD/AI/Sketch格式编辑" },
+      { name: "Squoosh", url: "https://squoosh.app/", cat: "image", tags: "谷歌出品, 本地压缩, 隐私", desc: "Google官方图片压缩工具，纯前端运行不上传服务器" },
+      { name: "Remove.bg", url: "https://www.remove.bg/zh", cat: "image", tags: "一键抠图, AI去背景", desc: "5秒自动去除图片背景，支持高清下载（免费额度内）" },
+      { name: "Ezgif", url: "https://ezgif.com/", cat: "image", tags: "GIF制作, 视频转GIF", desc: "强大的在线GIF/视频编辑工具，裁剪、压缩、添加文字" },
+      { name: "TinyPNG", url: "https://tinypng.com/", cat: "image", tags: "智能压缩, WebP转换", desc: "智能无损压缩PNG/JPG，支持批量处理与WebP转换" },
+      { name: "ILoveIMG", url: "https://www.iloveimg.com/zh-cn", cat: "image", tags: "图片工具集, 批量处理", desc: "专注图片处理，支持压缩、裁剪、加水印、格式转换" },
+      { name: "Clideo", url: "https://clideo.com/zh", cat: "video", tags: "视频剪辑, 压缩, 合并", desc: "免费在线视频编辑器，支持剪辑、压缩、添加字幕" },
+      { name: "MP3Cut", url: "https://mp3cut.net/cn/", cat: "video", tags: "音频剪辑, 格式转换", desc: "300+格式支持，精准剪切、合并、转换音频文件" },
+      { name: "AudioMass", url: "https://audiomass.co/", cat: "video", tags: "开源音频, 波形编辑", desc: "纯前端开源音频编辑器，支持多轨道、滤镜、导出" },
+      { name: "Online Video Cutter", url: "https://online-video-cutter.com/cn", cat: "video", tags: "视频裁剪, 旋转, 稳定", desc: "123apps出品，精准裁剪视频片段并旋转/翻转" },
+      { name: "Kapwing", url: "https://www.kapwing.com/cmn-hans-cn", cat: "video", tags: "AI视频, 字幕生成", desc: "AI驱动的视频编辑平台，自动字幕、模板丰富" },
+      { name: "PDF24 Tools", url: "https://tools.pdf24.org/zh/", cat: "pdf", tags: "PDF全能, 合并, 压缩", desc: "25+种PDF工具完全免费，无水印无限制，本地处理" },
+      { name: "iLovePDF", url: "https://www.ilovepdf.com/zh-cn", cat: "pdf", tags: "PDF转换, 拆分, 编辑", desc: " intuitive PDF工具箱，支持Word/Excel/PPT互转" },
+      { name: "GoPDF", url: "https://gopdf.io/zh-cn", cat: "pdf", tags: "PDF编辑, 填写表单", desc: "轻量级在线PDF编辑器，支持高亮、注释、签名" },
+      { name: "Smallpdf", url: "https://smallpdf.com/cn/pdf-tools", cat: "pdf", tags: "PDF优化, 电子签名", desc: "瑞士品质PDF工具，界面简洁，支持云端同步（免费基础功能）" },
+      { name: "PearOCR", url: "https://pearocr.com/", cat: "ocr", tags: "图片转文字, 本地识别", desc: "完全离线运行的OCR工具，保护隐私，支持多语言" },
+      { name: "白描网页版", url: "https://web.baimiaoapp.com/", cat: "ocr", tags: "高精度OCR, 表格识别", desc: "国内知名OCR引擎网页版，识别率高，支持表格还原" },
+      { name: "OnlineOCR", url: "https://www.onlineocr.net/zh_hans", cat: "ocr", tags: "PDF转Word, 免费额度", desc: "老牌在线OCR，支持PDF/图片转Word/Excel/文本" },
+      { name: "TextIn Tools", url: "https://tools.textin.com/", cat: "ocr", tags: "AI识别, 票据/表格", desc: "合合信息出品，支持复杂票据、表格、公式识别" },
+      { name: "CatOCR", url: "https://catocr.com/", cat: "ocr", tags: "批量提取, 免费", desc: "专注批量图片文字提取，界面极简无广告干扰" },
+      { name: "Carbon", url: "https://carbon.now.sh/", cat: "dev", tags: "代码美化, 分享图片", desc: "将代码转换为精美图片，支持语法高亮与主题定制" },
+      { name: "JSON Formatter", url: "https://jsonformatter.curiousconcept.com/", cat: "dev", tags: "JSON校验, 格式化", desc: "快速验证、格式化、压缩JSON数据，支持语法树" },
+      { name: "RegExr", url: "https://regexr.com/", cat: "dev", tags: "正则表达式, 在线测试", desc: "交互式正则表达式测试工具，实时匹配与高亮" },
+      { name: "Coolors", url: "https://coolors.co/", cat: "dev", tags: "配色方案, 灵感生成", desc: "专业配色生成器，支持从图片提取、导出多格式" },
+      { name: "Unsplash", url: "https://unsplash.com/", cat: "dev", tags: "免费图库, 高分辨率", desc: "全球最大免费高质量图片库，CC0协议可商用" },
+      { name: "Pexels", url: "https://www.pexels.com/zh-cn/", cat: "dev", tags: "免费视频, 图片素材", desc: "海量免费可商用图片与短视频，支持多语言搜索" },
+      { name: "Canva", url: "https://www.canva.cn/", cat: "dev", tags: "在线设计, 模板丰富", desc: "零基础设计神器，海报/简历/PPT模板一键套用" },
+      { name: "Figma", url: "https://www.figma.com/", cat: "dev", tags: "UI设计, 实时协作", desc: "行业标准UI/UX设计工具，免费版满足个人需求" },
+      { name: "OmniTools", url: "https://www.lilin.us/", cat: "dev", tags: "综合工具箱, 开发者", desc: "100+免注册工具集合，图片/SEO/二维码一站搞定" },
+      { name: "Convertio", url: "https://convertio.co/zh/", cat: "dev", tags: "全格式转换, 300+支持", desc: "支持文档/图片/音频/视频等300+格式互转" }
+    ];
+
+    const grid = document.getElementById('toolsGrid');
+    const searchInput = document.getElementById('searchInput');
+    const noResults = document.getElementById('noResults');
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    let currentCat = 'all';
+
+    // 🎨 渲染卡片
+    function renderTools(data) {
+      grid.innerHTML = '';
+      if (data.length === 0) { noResults.style.display = 'block'; return; }
+      noResults.style.display = 'none';
+      
+      data.forEach(tool => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <h3><a href="${tool.url}" target="_blank" rel="noopener noreferrer">${tool.name} ↗</a></h3>
+          <div class="tags">${tool.tags.split(',').map(t => `<span class="tag">${t.trim()}</span>`).join('')}</div>
+          <div class="desc">${tool.desc}</div>
+          <a href="${tool.url}" class="visit-btn" target="_blank" rel="noopener noreferrer">立即使用</a>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // 🔍 过滤逻辑
+    function filterTools() {
+      const query = searchInput.value.toLowerCase().trim();
+      const filtered = tools.filter(t => {
+        const matchCat = currentCat === 'all' || t.cat === currentCat;
+        const matchText = !query || 
+          t.name.toLowerCase().includes(query) || 
+          t.tags.toLowerCase().includes(query) || 
+          t.desc.toLowerCase().includes(query);
+        return matchCat && matchText;
+      });
+      renderTools(filtered);
+    }
+
+    // 🖱️ 事件绑定
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentCat = btn.dataset.cat;
+        filterTools();
+      });
+    });
+
+    let debounceTimer;
+    searchInput.addEventListener('input', () => {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(filterTools, 150);
+    });
+
+    // 🚀 初始化
+    renderTools(tools);
+  </script>
+</body>
+</html>
