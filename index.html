@@ -3,13 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- 百度验证标签 -->
   <meta name="baidu-site-verification" content="codeva-zaStJc5GRc" />
-  <!-- SEO 优化 -->
-  <title>jqdf 工具导航 - 免费免注册在线工具合集 | 图片/视频/PDF/OCR</title>
+  
+  <!-- SEO 核心标签 -->
+  <title>jqdf 工具导航 - 免费免注册在线工具合集</title>
   <meta name="description" content="jqdf.com 精选免费、免注册、开箱即用的实用在线工具，包括图片压缩、在线PS、PDF转换、视频剪辑、OCR识别等，无需下载软件，打开即用">
   <meta name="keywords" content="免费工具,在线工具,免注册,图片压缩,在线PS,PDF转换,视频剪辑,OCR识别,工具导航">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://jqdf.com/">
+  
+  <!-- 语言与 hreflang 设置 -->
+  <link rel="alternate" hreflang="zh-CN" href="https://jqdf.com/" />
+  <link rel="alternate" hreflang="en" href="https://jqdf.com/?lang=en" />
   
   <!-- Favicon -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛠️</text></svg>">
@@ -28,7 +35,7 @@
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; padding: 20px; }
-    .container { max-width: 1100px; margin: 0 auto; }
+    .container { max-width: 1100px; margin: 0 auto; position: relative; }
     
     header { text-align: center; margin-bottom: 30px; padding: 20px 0; }
     h1 { font-size: 2rem; margin-bottom: 6px; letter-spacing: -0.5px; }
@@ -74,18 +81,33 @@
     footer a { color: var(--primary); text-decoration: none; }
     .no-results { text-align: center; padding: 40px; color: var(--text-light); display: none; font-size: 1rem; }
 
+    /* 语言切换按钮样式 */
+    .lang-switch { position: fixed; top: 20px; right: 20px; z-index: 1000; display: flex; gap: 8px; }
+    .lang-btn {
+      padding: 6px 12px; border: 1px solid var(--border); background: var(--card-bg); border-radius: 20px;
+      cursor: pointer; color: var(--text); font-size: 0.85rem; transition: 0.2s;
+    }
+    .lang-btn:hover, .lang-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
     @media (max-width: 600px) {
       .grid { grid-template-columns: 1fr; }
       h1 { font-size: 1.6rem; }
       .filter-btn { font-size: 0.85rem; padding: 6px 12px; }
+      .lang-switch { top: 10px; right: 10px; }
     }
   </style>
 </head>
 <body>
   <div class="container">
+    <!-- 语言切换按钮 -->
+    <div class="lang-switch">
+      <button class="lang-btn" id="btn-zh" onclick="switchLang('zh')">中文</button>
+      <button class="lang-btn" id="btn-en" onclick="switchLang('en')">EN</button>
+    </div>
+
     <header>
-      <h1>🛠️ jqdf 工具导航</h1>
-      <p class="subtitle">精选免费 · 免注册 · 开箱即用的实用在线工具</p>
+      <h1>🛠️ <span class="title-text">jqdf 工具导航</span></h1>
+      <p class="subtitle" id="subtitle-text">精选免费 · 免注册 · 开箱即用的实用在线工具</p>
       <div class="search-box">
         <input type="text" id="searchInput" placeholder="搜索工具名称、功能或标签...">
       </div>
@@ -93,69 +115,164 @@
 
     <div class="filters" id="filterContainer">
       <button class="filter-btn active" data-cat="all">全部</button>
-      <button class="filter-btn" data-cat="image">🖼️ 图片处理</button>
-      <button class="filter-btn" data-cat="video">🎬 视频/音频</button>
-      <button class="filter-btn" data-cat="pdf">📄 PDF/文档</button>
-      <button class="filter-btn" data-cat="ocr">🔤 OCR/文字</button>
-      <button class="filter-btn" data-cat="dev">💻 开发/设计</button>
+      <button class="filter-btn" data-cat="image">🖼️ <span class="cat-img">图片处理</span></button>
+      <button class="filter-btn" data-cat="video">🎬 <span class="cat-video">视频/音频</span></button>
+      <button class="filter-btn" data-cat="pdf"> <span class="cat-pdf">PDF/文档</span></button>
+      <button class="filter-btn" data-cat="ocr">🔤 <span class="cat-ocr">OCR/文字</span></button>
+      <button class="filter-btn" data-cat="dev">💻 <span class="cat-dev">开发/设计</span></button>
     </div>
 
     <div class="grid" id="toolsGrid"></div>
     <div class="no-results" id="noResults">未找到匹配的工具，请尝试其他关键词</div>
 
-    <div class="ad-placeholder" id="ad-mid">📢 广告位预留 (接入联盟后替换此处)</div>
+    <div class="ad-placeholder" id="ad-mid"> 广告位预留 (接入联盟后替换此处)</div>
 
     <footer>
-      <p>© 2026 <a href="https://jqdf.com">jqdf.com</a> | 工具版权归原作者，本站仅作导航收录</p>
+      <p>© 2026 <a href="https://jqdf.com">jqdf.com</a> | <span id="footer-text">工具版权归原作者，本站仅作导航收录</span></p>
       <p>
-        🔒 本站不收集任何用户数据，隐私安全 | 
-        <a href="/about.html">关于我们</a> | 
-        <a href="/privacy.html">隐私政策</a> | 
-        <a href="mailto:jqdf@foxmail.com">反馈建议</a>
+        🔒 <span id="privacy-text">本站不收集任何用户数据，隐私安全</span> | 
+        <a href="/about.html" id="about-link">关于我们</a> | 
+        <a href="/privacy.html" id="privacy-link">隐私政策</a> | 
+        <a href="mailto:jqdf@foxmail.com" id="feedback-link">反馈建议</a>
       </p>
     </footer>
   </div>
 
   <script>
+    // 📦 工具数据池（支持中英双语）
     const tools = [
-      { name: "Photopea", url: "https://www.photopea.com/", cat: "image", tags: "在线PS, PSD, 免注册", desc: "浏览器版Photoshop，支持PSD/AI/Sketch格式编辑" },
-      { name: "Squoosh", url: "https://squoosh.app/", cat: "image", tags: "谷歌出品, 本地压缩, 隐私", desc: "Google官方图片压缩工具，纯前端运行不上传服务器" },
-      { name: "Remove.bg", url: "https://www.remove.bg/zh", cat: "image", tags: "一键抠图, AI去背景", desc: "5秒自动去除图片背景，支持高清下载（免费额度内）" },
-      { name: "Ezgif", url: "https://ezgif.com/", cat: "image", tags: "GIF制作, 视频转GIF", desc: "强大的在线GIF/视频编辑工具，裁剪、压缩、添加文字" },
-      { name: "TinyPNG", url: "https://tinypng.com/", cat: "image", tags: "智能压缩, WebP转换", desc: "智能无损压缩PNG/JPG，支持批量处理与WebP转换" },
-      { name: "ILoveIMG", url: "https://www.iloveimg.com/zh-cn", cat: "image", tags: "图片工具集, 批量处理", desc: "专注图片处理，支持压缩、裁剪、加水印、格式转换" },
-      { name: "Clideo", url: "https://clideo.com/zh", cat: "video", tags: "视频剪辑, 压缩, 合并", desc: "免费在线视频编辑器，支持剪辑、压缩、添加字幕" },
-      { name: "MP3Cut", url: "https://mp3cut.net/cn/", cat: "video", tags: "音频剪辑, 格式转换", desc: "300+格式支持，精准剪切、合并、转换音频文件" },
-      { name: "AudioMass", url: "https://audiomass.co/", cat: "video", tags: "开源音频, 波形编辑", desc: "纯前端开源音频编辑器，支持多轨道、滤镜、导出" },
-      { name: "Online Video Cutter", url: "https://online-video-cutter.com/cn", cat: "video", tags: "视频裁剪, 旋转, 稳定", desc: "123apps出品，精准裁剪视频片段并旋转/翻转" },
-      { name: "Kapwing", url: "https://www.kapwing.com/cmn-hans-cn", cat: "video", tags: "AI视频, 字幕生成", desc: "AI驱动的视频编辑平台，自动字幕、模板丰富" },
-      { name: "PDF24 Tools", url: "https://tools.pdf24.org/zh/", cat: "pdf", tags: "PDF全能, 合并, 压缩", desc: "25+种PDF工具完全免费，无水印无限制，本地处理" },
-      { name: "iLovePDF", url: "https://www.ilovepdf.com/zh-cn", cat: "pdf", tags: "PDF转换, 拆分, 编辑", desc: "intuitive PDF工具箱，支持Word/Excel/PPT互转" },
-      { name: "GoPDF", url: "https://gopdf.io/zh-cn", cat: "pdf", tags: "PDF编辑, 填写表单", desc: "轻量级在线PDF编辑器，支持高亮、注释、签名" },
-      { name: "Smallpdf", url: "https://smallpdf.com/cn/pdf-tools", cat: "pdf", tags: "PDF优化, 电子签名", desc: "瑞士品质PDF工具，界面简洁，支持云端同步（免费基础功能）" },
-      { name: "PearOCR", url: "https://pearocr.com/", cat: "ocr", tags: "图片转文字, 本地识别", desc: "完全离线运行的OCR工具，保护隐私，支持多语言" },
-      { name: "白描网页版", url: "https://web.baimiaoapp.com/", cat: "ocr", tags: "高精度OCR, 表格识别", desc: "国内知名OCR引擎网页版，识别率高，支持表格还原" },
-      { name: "OnlineOCR", url: "https://www.onlineocr.net/zh_hans", cat: "ocr", tags: "PDF转Word, 免费额度", desc: "老牌在线OCR，支持PDF/图片转Word/Excel/文本" },
-      { name: "TextIn Tools", url: "https://tools.textin.com/", cat: "ocr", tags: "AI识别, 票据/表格", desc: "合合信息出品，支持复杂票据、表格、公式识别" },
-      { name: "CatOCR", url: "https://catocr.com/", cat: "ocr", tags: "批量提取, 免费", desc: "专注批量图片文字提取，界面极简无广告干扰" },
-      { name: "Carbon", url: "https://carbon.now.sh/", cat: "dev", tags: "代码美化, 分享图片", desc: "将代码转换为精美图片，支持语法高亮与主题定制" },
-      { name: "JSON Formatter", url: "https://jsonformatter.curiousconcept.com/", cat: "dev", tags: "JSON校验, 格式化", desc: "快速验证、格式化、压缩JSON数据，支持语法树" },
-      { name: "RegExr", url: "https://regexr.com/", cat: "dev", tags: "正则表达式, 在线测试", desc: "交互式正则表达式测试工具，实时匹配与高亮" },
-      { name: "Coolors", url: "https://coolors.co/", cat: "dev", tags: "配色方案, 灵感生成", desc: "专业配色生成器，支持从图片提取、导出多格式" },
-      { name: "Unsplash", url: "https://unsplash.com/", cat: "dev", tags: "免费图库, 高分辨率", desc: "全球最大免费高质量图片库，CC0协议可商用" },
-      { name: "Pexels", url: "https://www.pexels.com/zh-cn/", cat: "dev", tags: "免费视频, 图片素材", desc: "海量免费可商用图片与短视频，支持多语言搜索" },
-      { name: "Canva", url: "https://www.canva.cn/", cat: "dev", tags: "在线设计, 模板丰富", desc: "零基础设计神器，海报/简历/PPT模板一键套用" },
-      { name: "Figma", url: "https://www.figma.com/", cat: "dev", tags: "UI设计, 实时协作", desc: "行业标准UI/UX设计工具，免费版满足个人需求" },
-      { name: "OmniTools", url: "https://www.lilin.us/", cat: "dev", tags: "综合工具箱, 开发者", desc: "100+免注册工具集合，图片/SEO/二维码一站搞定" },
-      { name: "Convertio", url: "https://convertio.co/zh/", cat: "dev", tags: "全格式转换, 300+支持", desc: "支持文档/图片/音频/视频等300+格式互转" }
+      { name: {zh:"Photopea", en:"Photopea"}, url: "https://www.photopea.com/", cat: "image", tags: {zh:"在线PS, PSD, 免注册", en:"Online PS, PSD, No Signup"}, desc: {zh:"浏览器版Photoshop，支持PSD/AI/Sketch格式编辑", en:"Browser-based Photoshop, supports PSD/AI/Sketch editing"} },
+      { name: {zh:"Squoosh", en:"Squoosh"}, url: "https://squoosh.app/", cat: "image", tags: {zh:"谷歌出品, 本地压缩, 隐私", en:"Google, Local Compression, Privacy"}, desc: {zh:"Google官方图片压缩工具，纯前端运行不上传服务器", en:"Google's official image compressor, runs locally in browser"} },
+      { name: {zh:"Remove.bg", en:"Remove.bg"}, url: "https://www.remove.bg/zh", cat: "image", tags: {zh:"一键抠图, AI去背景", en:"One-click Cutout, AI Background"}, desc: {zh:"5秒自动去除图片背景，支持高清下载", en:"Remove image background in 5 seconds automatically"} },
+      { name: {zh:"Ezgif", en:"Ezgif"}, url: "https://ezgif.com/", cat: "image", tags: {zh:"GIF制作, 视频转GIF", en:"GIF Maker, Video to GIF"}, desc: {zh:"强大的在线GIF/视频编辑工具，裁剪、压缩、添加文字", en:"Powerful GIF/video editor: crop, compress, add text"} },
+      { name: {zh:"TinyPNG", en:"TinyPNG"}, url: "https://tinypng.com/", cat: "image", tags: {zh:"智能压缩, WebP转换", en:"Smart Compression, WebP"}, desc: {zh:"智能无损压缩PNG/JPG，支持批量处理与WebP转换", en:"Smart lossy compression for PNG/JPG and WebP"} },
+      { name: {zh:"ILoveIMG", en:"ILoveIMG"}, url: "https://www.iloveimg.com/zh-cn", cat: "image", tags: {zh:"图片工具集, 批量处理", en:"Image Tools, Batch Processing"}, desc: {zh:"专注图片处理，支持压缩、裁剪、加水印、格式转换", en:"Focus on image processing: compress, crop, watermark"} },
+      { name: {zh:"Clideo", en:"Clideo"}, url: "https://clideo.com/zh", cat: "video", tags: {zh:"视频剪辑, 压缩, 合并", en:"Video Editor, Compress, Merge"}, desc: {zh:"免费在线视频编辑器，支持剪辑、压缩、添加字幕", en:"Free online video editor: trim, compress, subtitle"} },
+      { name: {zh:"MP3Cut", en:"MP3Cut"}, url: "https://mp3cut.net/cn/", cat: "video", tags: {zh:"音频剪辑, 格式转换", en:"Audio Editor, Format Converter"}, desc: {zh:"300+格式支持，精准剪切、合并、转换音频文件", en:"300+ formats, precise cut, merge, and convert audio"} },
+      { name: {zh:"AudioMass", en:"AudioMass"}, url: "https://audiomass.co/", cat: "video", tags: {zh:"开源音频, 波形编辑", en:"Open Source, Waveform Editor"}, desc: {zh:"纯前端开源音频编辑器，支持多轨道、滤镜、导出", en:"Open-source audio editor: multi-track, effects, export"} },
+      { name: {zh:"Online Video Cutter", en:"Online Video Cutter"}, url: "https://online-video-cutter.com/cn", cat: "video", tags: {zh:"视频裁剪, 旋转, 稳定", en:"Video Trim, Rotate, Stabilize"}, desc: {zh:"123apps出品，精准裁剪视频片段并旋转/翻转", en:"Precise video trim, rotate, and flip by 123apps"} },
+      { name: {zh:"Kapwing", en:"Kapwing"}, url: "https://www.kapwing.com/cmn-hans-cn", cat: "video", tags: {zh:"AI视频, 字幕生成", en:"AI Video, Auto Subtitles"}, desc: {zh:"AI驱动的视频编辑平台，自动字幕、模板丰富", en:"AI-driven video editor: auto subtitles, rich templates"} },
+      { name: {zh:"PDF24 Tools", en:"PDF24 Tools"}, url: "https://tools.pdf24.org/zh/", cat: "pdf", tags: {zh:"PDF全能, 合并, 压缩", en:"PDF All-in-One, Merge, Compress"}, desc: {zh:"25+种PDF工具完全免费，无水印无限制，本地处理", en:"25+ free PDF tools: no watermark, local processing"} },
+      { name: {zh:"iLovePDF", en:"iLovePDF"}, url: "https://www.ilovepdf.com/zh-cn", cat: "pdf", tags: {zh:"PDF转换, 拆分, 编辑", en:"PDF Converter, Split, Edit"}, desc: {zh:"intuitive PDF工具箱，支持Word/Excel/PPT互转", en:"Intuitive PDF toolbox: convert to/from Office files"} },
+      { name: {zh:"GoPDF", en:"GoPDF"}, url: "https://gopdf.io/zh-cn", cat: "pdf", tags: {zh:"PDF编辑, 填写表单", en:"PDF Editor, Fill Forms"}, desc: {zh:"轻量级在线PDF编辑器，支持高亮、注释、签名", en:"Lightweight online PDF editor: highlight, comment, sign"} },
+      { name: {zh:"Smallpdf", en:"Smallpdf"}, url: "https://smallpdf.com/cn/pdf-tools", cat: "pdf", tags: {zh:"PDF优化, 电子签名", en:"PDF Optimization, eSign"}, desc: {zh:"瑞士品质PDF工具，界面简洁，支持云端同步", en:"Swiss-quality PDF tools: clean UI, cloud sync"} },
+      { name: {zh:"PearOCR", en:"PearOCR"}, url: "https://pearocr.com/", cat: "ocr", tags: {zh:"图片转文字, 本地识别", en:"Image to Text, Local OCR"}, desc: {zh:"完全离线运行的OCR工具，保护隐私，支持多语言", en:"Offline OCR tool: privacy-first, multi-language"} },
+      { name: {zh:"白描网页版", en:"Baimiao Web"}, url: "https://web.baimiaoapp.com/", cat: "ocr", tags: {zh:"高精度OCR, 表格识别", en:"High Precision OCR, Table"}, desc: {zh:"国内知名OCR引擎网页版，识别率高，支持表格还原", en:"Famous OCR engine: high accuracy, table restoration"} },
+      { name: {zh:"OnlineOCR", en:"OnlineOCR"}, url: "https://www.onlineocr.net/zh_hans", cat: "ocr", tags: {zh:"PDF转Word, 免费额度", en:"PDF to Word, Free Tier"}, desc: {zh:"老牌在线OCR，支持PDF/图片转Word/Excel/文本", en:"Classic OCR: PDF/Image to Word/Excel/Text"} },
+      { name: {zh:"TextIn Tools", en:"TextIn Tools"}, url: "https://tools.textin.com/", cat: "ocr", tags: {zh:"AI识别, 票据/表格", en:"AI Recognition, Invoice/Table"}, desc: {zh:"合合信息出品，支持复杂票据、表格、公式识别", en:"By TextIn: complex invoices, tables, formulas"} },
+      { name: {zh:"CatOCR", en:"CatOCR"}, url: "https://catocr.com/", cat: "ocr", tags: {zh:"批量提取, 免费", en:"Batch Extract, Free"}, desc: {zh:"专注批量图片文字提取，界面极简无广告干扰", en:"Batch image text extraction: simple UI, no ads"} },
+      { name: {zh:"Carbon", en:"Carbon"}, url: "https://carbon.now.sh/", cat: "dev", tags: {zh:"代码美化, 分享图片", en:"Code Beautify, Share Image"}, desc: {zh:"将代码转换为精美图片，支持语法高亮与主题定制", en:"Turn code into beautiful images with syntax highlighting"} },
+      { name: {zh:"JSON Formatter", en:"JSON Formatter"}, url: "https://jsonformatter.curiousconcept.com/", cat: "dev", tags: {zh:"JSON校验, 格式化", en:"JSON Validator, Formatter"}, desc: {zh:"快速验证、格式化、压缩JSON数据，支持语法树", en:"Validate, format, minify JSON with syntax tree"} },
+      { name: {zh:"RegExr", en:"RegExr"}, url: "https://regexr.com/", cat: "dev", tags: {zh:"正则表达式, 在线测试", en:"Regex, Online Tester"}, desc: {zh:"交互式正则表达式测试工具，实时匹配与高亮", en:"Interactive regex tester: real-time match and highlight"} },
+      { name: {zh:"Coolors", en:"Coolors"}, url: "https://coolors.co/", cat: "dev", tags: {zh:"配色方案, 灵感生成", en:"Color Palette, Inspiration"}, desc: {zh:"专业配色生成器，支持从图片提取、导出多格式", en:"Professional palette generator: extract from image"} },
+      { name: {zh:"Unsplash", en:"Unsplash"}, url: "https://unsplash.com/", cat: "dev", tags: {zh:"免费图库, 高分辨率", en:"Free Stock, High Res"}, desc: {zh:"全球最大免费高质量图片库，CC0协议可商用", en:"World's largest free photo library, commercial use OK"} },
+      { name: {zh:"Pexels", en:"Pexels"}, url: "https://www.pexels.com/zh-cn/", cat: "dev", tags: {zh:"免费视频, 图片素材", en:"Free Video, Stock Photos"}, desc: {zh:"海量免费可商用图片与短视频，支持多语言搜索", en:"Massive free photos and videos: multi-language search"} },
+      { name: {zh:"Canva", en:"Canva"}, url: "https://www.canva.cn/", cat: "dev", tags: {zh:"在线设计, 模板丰富", en:"Online Design, Templates"}, desc: {zh:"零基础设计神器，海报/简历/PPT模板一键套用", en:"Design for everyone: posters, resumes, PPT templates"} },
+      { name: {zh:"Figma", en:"Figma"}, url: "https://www.figma.com/", cat: "dev", tags: {zh:"UI设计, 实时协作", en:"UI Design, Real-time Collab"}, desc: {zh:"行业标准UI/UX设计工具，免费版满足个人需求", en:"Industry standard UI/UX tool: free plan available"} },
+      { name: {zh:"OmniTools", en:"OmniTools"}, url: "https://www.lilin.us/", cat: "dev", tags: {zh:"综合工具箱, 开发者", en:"All-in-One, Developer"}, desc: {zh:"100+免注册工具集合，图片/SEO/二维码一站搞定", en:"100+ no-signup tools: image, SEO, QR code"} },
+      { name: {zh:"Convertio", en:"Convertio"}, url: "https://convertio.co/zh/", cat: "dev", tags: {zh:"全格式转换, 300+支持", en:"All Format, 300+ Types"}, desc: {zh:"支持文档/图片/音频/视频等300+格式互转", en:"Convert 300+ formats: docs, images, audio, video"} }
     ];
+
+    // 国际化文案配置
+    const i18n = {
+      zh: {
+        title: "jqdf 工具导航",
+        subtitle: "精选免费 · 免注册 · 开箱即用的实用在线工具",
+        placeholder: "搜索工具名称、功能或标签...",
+        cats: { all: "全部", image: "图片处理", video: "视频/音频", pdf: "PDF/文档", ocr: "OCR/文字", dev: "开发/设计" },
+        noResult: "未找到匹配的工具，请尝试其他关键词",
+        footer: "工具版权归原作者，本站仅作导航收录",
+        privacy: "本站不收集任何用户数据，隐私安全",
+        about: "关于我们",
+        privacyPage: "隐私政策",
+        feedback: "反馈建议"
+      },
+      en: {
+        title: "jqdf Tool Navigation",
+        subtitle: "Curated Free · No Signup · Ready-to-use Online Tools",
+        placeholder: "Search tools, features or tags...",
+        cats: { all: "All", image: "Image", video: "Video/Audio", pdf: "PDF/Doc", ocr: "OCR/Text", dev: "Dev/Design" },
+        noResult: "No tools found, try other keywords",
+        footer: "Tools belong to their original authors, this site is for navigation only",
+        privacy: "This site does not collect any user data, privacy secure",
+        about: "About Us",
+        privacyPage: "Privacy Policy",
+        feedback: "Feedback"
+      }
+    };
 
     const grid = document.getElementById('toolsGrid');
     const searchInput = document.getElementById('searchInput');
     const noResults = document.getElementById('noResults');
     const filterBtns = document.querySelectorAll('.filter-btn');
     let currentCat = 'all';
+    let currentLang = 'zh';
 
+    // 初始化语言
+    function initLang() {
+      const urlParams = new URLSearchParams(window.location.search);
+      currentLang = urlParams.get('lang') || localStorage.getItem('jqdf-lang') || 'zh';
+      updateLangUI();
+    }
+
+    // 切换语言
+    function switchLang(lang) {
+      currentLang = lang;
+      localStorage.setItem('jqdf-lang', lang);
+      
+      // 更新 URL 参数
+      const url = new URL(window.location);
+      url.searchParams.set('lang', lang);
+      window.history.pushState({}, '', url);
+      
+      updateLangUI();
+      renderTools(getFilteredTools()); // 重新渲染
+    }
+
+    // 更新界面文本
+    function updateLangUI() {
+      const t = i18n[currentLang];
+      document.documentElement.lang = currentLang === 'zh' ? 'zh-CN' : 'en';
+      document.title = t.title;
+      document.querySelector('.title-text').textContent = t.title;
+      document.getElementById('subtitle-text').textContent = t.subtitle;
+      searchInput.placeholder = t.placeholder;
+      document.getElementById('noResults').textContent = t.noResult;
+      document.getElementById('footer-text').textContent = t.footer;
+      document.getElementById('privacy-text').textContent = t.privacy;
+      document.getElementById('about-link').textContent = t.about;
+      document.getElementById('privacy-link').textContent = t.privacyPage;
+      document.getElementById('feedback-link').textContent = t.feedback;
+      
+      // 更新分类按钮
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        if(btn.dataset.cat === 'image') btn.querySelector('span').textContent = t.cats.image;
+        if(btn.dataset.cat === 'video') btn.querySelector('span').textContent = t.cats.video;
+        if(btn.dataset.cat === 'pdf') btn.querySelector('span').textContent = t.cats.pdf;
+        if(btn.dataset.cat === 'ocr') btn.querySelector('span').textContent = t.cats.ocr;
+        if(btn.dataset.cat === 'dev') btn.querySelector('span').textContent = t.cats.dev;
+        if(btn.dataset.cat === 'all') btn.textContent = t.cats.all;
+      });
+
+      // 更新按钮状态
+      document.getElementById('btn-zh').classList.toggle('active', currentLang === 'zh');
+      document.getElementById('btn-en').classList.toggle('active', currentLang === 'en');
+    }
+
+    // 获取当前过滤后的工具
+    function getFilteredTools() {
+      const query = searchInput.value.toLowerCase().trim();
+      return tools.filter(t => {
+        const matchCat = currentCat === 'all' || t.cat === currentCat;
+        const matchText = !query || 
+          t.name[currentLang].toLowerCase().includes(query) || 
+          t.tags[currentLang].toLowerCase().includes(query) || 
+          t.desc[currentLang].toLowerCase().includes(query);
+        return matchCat && matchText;
+      });
+    }
+
+    // 渲染工具卡片
     function renderTools(data) {
       grid.innerHTML = '';
       if (data.length === 0) { noResults.style.display = 'block'; return; }
@@ -165,43 +282,33 @@
         const card = document.createElement('div');
         card.className = 'card';
         card.innerHTML = `
-          <h3><a href="${tool.url}" target="_blank" rel="noopener noreferrer">${tool.name} ↗</a></h3>
-          <div class="tags">${tool.tags.split(',').map(t => `<span class="tag">${t.trim()}</span>`).join('')}</div>
-          <div class="desc">${tool.desc}</div>
-          <a href="${tool.url}" class="visit-btn" target="_blank" rel="noopener noreferrer">立即使用</a>
+          <h3><a href="${tool.url}" target="_blank" rel="noopener noreferrer">${tool.name[currentLang]} ↗</a></h3>
+          <div class="tags">${tool.tags[currentLang].split(',').map(tag => `<span class="tag">${tag.trim()}</span>`).join('')}</div>
+          <div class="desc">${tool.desc[currentLang]}</div>
+          <a href="${tool.url}" class="visit-btn" target="_blank" rel="noopener noreferrer">${currentLang === 'zh' ? '立即使用' : 'Use Now'}</a>
         `;
         grid.appendChild(card);
       });
     }
 
-    function filterTools() {
-      const query = searchInput.value.toLowerCase().trim();
-      const filtered = tools.filter(t => {
-        const matchCat = currentCat === 'all' || t.cat === currentCat;
-        const matchText = !query || 
-          t.name.toLowerCase().includes(query) || 
-          t.tags.toLowerCase().includes(query) || 
-          t.desc.toLowerCase().includes(query);
-        return matchCat && matchText;
-      });
-      renderTools(filtered);
-    }
-
+    // 事件绑定
     filterBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         filterBtns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         currentCat = btn.dataset.cat;
-        filterTools();
+        renderTools(getFilteredTools());
       });
     });
 
     let debounceTimer;
     searchInput.addEventListener('input', () => {
       clearTimeout(debounceTimer);
-      debounceTimer = setTimeout(filterTools, 150);
+      debounceTimer = setTimeout(() => renderTools(getFilteredTools()), 150);
     });
 
+    // 启动
+    initLang();
     renderTools(tools);
   </script>
 </body>
