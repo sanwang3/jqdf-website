@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://jqdf.com/sitemap.xml
