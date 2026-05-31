@@ -3,9 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="jqdf 工具导航 - 精选免费、免注册、开箱即用的实用在线工具集合">
-  <meta name="keywords" content="免费工具, 在线PS, PDF转换, 图片压缩, OCR识别, 免注册, 工具导航">
-  <title>jqdf 工具导航 | 免费实用在线工具合集</title>
+  
+  <!-- SEO 优化 -->
+  <title>jqdf 工具导航 - 免费免注册在线工具合集 | 图片/视频/PDF/OCR</title>
+  <meta name="description" content="jqdf.com 精选免费、免注册、开箱即用的实用在线工具，包括图片压缩、在线PS、PDF转换、视频剪辑、OCR识别等，无需下载软件，打开即用">
+  <meta name="keywords" content="免费工具,在线工具,免注册,图片压缩,在线PS,PDF转换,视频剪辑,OCR识别,工具导航">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://jqdf.com/">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛠️</text></svg>">
+  
   <style>
     :root {
       --bg: #f8f9fa; --card-bg: #ffffff; --text: #111827; --text-light: #6b7280;
@@ -99,12 +107,16 @@
 
     <footer>
       <p>© 2026 <a href="https://jqdf.com">jqdf.com</a> | 工具版权归原作者，本站仅作导航收录</p>
-      <p>🔒 本站不收集任何用户数据，隐私安全 | <a href="#">反馈建议</a> | <a href="#">隐私政策</a></p>
+      <p>
+        🔒 本站不收集任何用户数据，隐私安全 | 
+        <a href="/about.html">关于我们</a> | 
+        <a href="/privacy.html">隐私政策</a> | 
+        <a href="mailto:jqdf@foxmail.com">反馈建议</a>
+      </p>
     </footer>
   </div>
 
   <script>
-    // 📦 工具数据池（按需增删，保持格式一致即可）
     const tools = [
       { name: "Photopea", url: "https://www.photopea.com/", cat: "image", tags: "在线PS, PSD, 免注册", desc: "浏览器版Photoshop，支持PSD/AI/Sketch格式编辑" },
       { name: "Squoosh", url: "https://squoosh.app/", cat: "image", tags: "谷歌出品, 本地压缩, 隐私", desc: "Google官方图片压缩工具，纯前端运行不上传服务器" },
@@ -118,7 +130,7 @@
       { name: "Online Video Cutter", url: "https://online-video-cutter.com/cn", cat: "video", tags: "视频裁剪, 旋转, 稳定", desc: "123apps出品，精准裁剪视频片段并旋转/翻转" },
       { name: "Kapwing", url: "https://www.kapwing.com/cmn-hans-cn", cat: "video", tags: "AI视频, 字幕生成", desc: "AI驱动的视频编辑平台，自动字幕、模板丰富" },
       { name: "PDF24 Tools", url: "https://tools.pdf24.org/zh/", cat: "pdf", tags: "PDF全能, 合并, 压缩", desc: "25+种PDF工具完全免费，无水印无限制，本地处理" },
-      { name: "iLovePDF", url: "https://www.ilovepdf.com/zh-cn", cat: "pdf", tags: "PDF转换, 拆分, 编辑", desc: " intuitive PDF工具箱，支持Word/Excel/PPT互转" },
+      { name: "iLovePDF", url: "https://www.ilovepdf.com/zh-cn", cat: "pdf", tags: "PDF转换, 拆分, 编辑", desc: "intuitive PDF工具箱，支持Word/Excel/PPT互转" },
       { name: "GoPDF", url: "https://gopdf.io/zh-cn", cat: "pdf", tags: "PDF编辑, 填写表单", desc: "轻量级在线PDF编辑器，支持高亮、注释、签名" },
       { name: "Smallpdf", url: "https://smallpdf.com/cn/pdf-tools", cat: "pdf", tags: "PDF优化, 电子签名", desc: "瑞士品质PDF工具，界面简洁，支持云端同步（免费基础功能）" },
       { name: "PearOCR", url: "https://pearocr.com/", cat: "ocr", tags: "图片转文字, 本地识别", desc: "完全离线运行的OCR工具，保护隐私，支持多语言" },
@@ -144,7 +156,6 @@
     const filterBtns = document.querySelectorAll('.filter-btn');
     let currentCat = 'all';
 
-    // 🎨 渲染卡片
     function renderTools(data) {
       grid.innerHTML = '';
       if (data.length === 0) { noResults.style.display = 'block'; return; }
@@ -163,7 +174,6 @@
       });
     }
 
-    // 🔍 过滤逻辑
     function filterTools() {
       const query = searchInput.value.toLowerCase().trim();
       const filtered = tools.filter(t => {
@@ -177,7 +187,6 @@
       renderTools(filtered);
     }
 
-    // 🖱️ 事件绑定
     filterBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         filterBtns.forEach(b => b.classList.remove('active'));
@@ -193,7 +202,6 @@
       debounceTimer = setTimeout(filterTools, 150);
     });
 
-    // 🚀 初始化
     renderTools(tools);
   </script>
 </body>
