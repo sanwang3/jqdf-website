@@ -10,7 +10,7 @@
   <!-- SEO 核心标签 -->
   <title>jqdf 工具导航 - 免费免注册在线工具合集 | 图片/视频/PDF/OCR</title>
   <meta name="description" content="jqdf.com 精选免费、免注册、开箱即用的实用在线工具，包括图片压缩、在线 PS、PDF 转换、视频剪辑、OCR 识别、AI 视频生成等，无需下载软件，打开即用">
-  <meta name="keywords" content="免费工具，在线工具，免注册，图片压缩，在线 PS,PDF 转换，视频剪辑，OCR 识别，AI 视频，Logo 设计，工具导航">
+  <meta name="keywords" content="免费工具,在线工具,免注册,图片压缩,在线 PS,PDF 转换,视频剪辑,OCR 识别,AI 视频,Logo 设计,工具导航">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://jqdf.com/">
   
@@ -153,7 +153,7 @@
     <div class="grid" id="toolsGrid"></div>
     <div class="no-results" id="noResults">未找到匹配的工具，请尝试其他关键词</div>
 
-    <div class="ad-placeholder" id="ad-mid">📢 广告位预留 (接入联盟后替换此处)</div>
+    <div class="ad-placeholder" id="ad-mid"> 广告位预留 (接入联盟后替换此处)</div>
 
     <footer>
       <p>© 2026 <a href="https://jqdf.com">jqdf.com</a> | <span id="footer-text">工具版权归原作者，本站仅作导航收录</span></p>
@@ -167,10 +167,10 @@
   </div>
 
   <script>
-    // 📦 工具数据池（已更新：新增 5 款 AI 神器）
+    // 📦 工具数据池（已新增 OpenReel 和 raiw.cc）
     // type: "free" = 完全免费，"limited" = 有限额/需注册
     const tools = [
-      // 🖼️ 图片处理 (新增 Magiceraser, Codeformer)
+      // 🖼️ 图片处理
       { name: {zh:"Photopea", en:"Photopea"}, url: "https://www.photopea.com/", cat: "image", type: "free", tags: {zh:"在线 PS, PSD, 免注册", en:"Online PS, PSD, No Signup"}, desc: {zh:"浏览器版 Photoshop，支持 PSD/AI/Sketch 格式编辑", en:"Browser-based Photoshop, supports PSD/AI/Sketch editing"} },
       { name: {zh:"Squoosh", en:"Squoosh"}, url: "https://squoosh.app/", cat: "image", type: "free", tags: {zh:"谷歌出品，本地压缩，隐私", en:"Google, Local Compression, Privacy"}, desc: {zh:"Google 官方图片压缩工具，纯前端运行不上传服务器", en:"Google's official image compressor, runs locally in browser"} },
       { name: {zh:"Ezgif", en:"Ezgif"}, url: "https://ezgif.com/", cat: "image", type: "free", tags: {zh:"GIF 制作，视频转 GIF", en:"GIF Maker, Video to GIF"}, desc: {zh:"强大的在线 GIF/视频编辑工具，裁剪、压缩、添加文字", en:"Powerful GIF/video editor: crop, compress, add text"} },
@@ -178,24 +178,21 @@
       { name: {zh:"Compressor.io", en:"Compressor.io"}, url: "https://compressor.io/", cat: "image", type: "free", tags: {zh:"无损压缩，支持多格式", en:"Lossless Compression, Multi-format"}, desc: {zh:"智能图片压缩，支持 JPEG/PNG/SVG/GIF，无损压缩", en:"Smart image compression: JPEG/PNG/SVG/GIF, lossless"} },
       { name: {zh:"Magiceraser", en:"Magiceraser"}, url: "https://magiceraser.io/", cat: "image", type: "free", tags: {zh:"消除元素，图片编辑，AI", en:"Erase Objects, Photo Edit, AI"}, desc: {zh:"轻轻涂抹即可消除图片中任意元素，包括人物，完全免费", en:"Erase any elements from images with simple brush strokes, completely free"} },
       { name: {zh:"Codeformer", en:"Codeformer"}, url: "https://replicate.com/sczhou/codeformer", cat: "image", type: "free", tags: {zh:"去马赛克，图片修复，AI 修复", en:"Unblur, Photo Restore, AI Restore"}, desc: {zh:"修复模糊破损的图片和视频，去除马赛克，地表最强 AI 修复", en:"Restore blurry/damaged photos, remove mosaic, best AI restoration"} },
-      
-      // 🟡 图片处理 (有限额)
       { name: {zh:"TinyPNG", en:"TinyPNG"}, url: "https://tinypng.com/", cat: "image", type: "limited", tags: {zh:"智能压缩，WebP", en:"Smart Compression, WebP"}, desc: {zh:"智能无损压缩 PNG/JPG，每月 500 次免费额度", en:"Smart lossy compression for PNG/JPG, 500 free/month"} },
       { name: {zh:"Remove.bg", en:"Remove.bg"}, url: "https://www.remove.bg/zh", cat: "image", type: "limited", tags: {zh:"一键抠图，AI 去背景", en:"One-click Cutout, AI Background"}, desc: {zh:"5 秒自动去除图片背景，免费 1 次高清下载", en:"Remove image background in 5 seconds, 1 free HD download"} },
       
-      // 🎬 视频/音频 (新增 Minimax, Shannan)
+      // 🎬 视频/音频
       { name: {zh:"123apps", en:"123apps"}, url: "https://123apps.com/", cat: "video", type: "free", tags: {zh:"视频剪辑，音频编辑", en:"Video Editor, Audio Editor"}, desc: {zh:"免费在线视频音频编辑器，支持剪辑、转换、合并", en:"Free online video/audio editor: trim, convert, merge"} },
       { name: {zh:"Online Video Cutter", en:"Online Video Cutter"}, url: "https://online-video-cutter.com/cn", cat: "video", type: "free", tags: {zh:"视频裁剪，旋转", en:"Video Trim, Rotate"}, desc: {zh:"精准裁剪视频片段并旋转/翻转，无水印", en:"Precise video trim, rotate, and flip, no watermark"} },
       { name: {zh:"AudioMass", en:"AudioMass"}, url: "https://audiomass.co/", cat: "video", type: "free", tags: {zh:"开源音频，波形编辑", en:"Open Source, Waveform Editor"}, desc: {zh:"纯前端开源音频编辑器，支持多轨道、滤镜、导出", en:"Open-source audio editor: multi-track, effects, export"} },
       { name: {zh:"MP3Cut", en:"MP3Cut"}, url: "https://mp3cut.net/cn/", cat: "video", type: "free", tags: {zh:"音频剪辑，格式转换", en:"Audio Editor, Format Converter"}, desc: {zh:"300+ 格式支持，精准剪切、合并、转换音频文件", en:"300+ formats, precise cut, merge, and convert audio"} },
       { name: {zh:"Minimax", en:"Minimax"}, url: "https://www.minimax.ai/", cat: "video", type: "free", tags: {zh:"AI 视频生成，文字转视频，国产", en:"AI Video Gen, Text to Video, Chinese"}, desc: {zh:"将文字描述变成好莱坞级别大片，国内免费使用，国产之光", en:"Turn text descriptions into Hollywood-level videos, free in China"} },
       { name: {zh:"Shannan 数字人", en:"Shannan Avatar"}, url: "https://www.shannan.ai/", cat: "video", type: "free", tags: {zh:"数字人，AI 克隆，文字转视频", en:"Digital Avatar, AI Clone, Text to Video"}, desc: {zh:"上传照片克隆数字人，输入文字即可生成视频，自媒体神器", en:"Upload photo to clone digital avatar, generate videos by text"} },
-      
-      //  视频/音频 (有限额)
+      { name: {zh:"OpenReel", en:"OpenReel"}, url: "https://www.openreel.com/", cat: "video", type: "limited", tags: {zh:"远程录制, 在线访谈, 专业制作", en:"Remote Recording, Interview, Pro Production"}, desc: {zh:"专业级远程视频录制与访谈平台，支持多机位高清，需注册", en:"Pro remote video recording & interview platform, multi-cam HD, requires account"} },
       { name: {zh:"Kapwing", en:"Kapwing"}, url: "https://www.kapwing.com/", cat: "video", type: "limited", tags: {zh:"AI 视频，字幕生成", en:"AI Video, Auto Subtitles"}, desc: {zh:"AI 驱动的视频编辑，免费版有水印", en:"AI-driven video editor, free version has watermark"} },
       { name: {zh:"Clideo", en:"Clideo"}, url: "https://clideo.com/zh", cat: "video", type: "limited", tags: {zh:"视频剪辑，压缩", en:"Video Editor, Compress"}, desc: {zh:"免费在线视频编辑器，文件大小有限制", en:"Free online video editor, file size limit"} },
       
-      // 📄 PDF/文档
+      //  PDF/文档
       { name: {zh:"PDF24 Tools", en:"PDF24 Tools"}, url: "https://tools.pdf24.org/zh/", cat: "pdf", type: "free", tags: {zh:"PDF 全能，合并，压缩", en:"PDF All-in-One, Merge, Compress"}, desc: {zh:"25+ 种 PDF 工具完全免费，无水印无限制，本地处理", en:"25+ free PDF tools: no watermark, local processing"} },
       { name: {zh:"iLovePDF", en:"iLovePDF"}, url: "https://www.ilovepdf.com/zh-cn", cat: "pdf", type: "free", tags: {zh:"PDF 转换，拆分，编辑", en:"PDF Converter, Split, Edit"}, desc: {zh:"PDF 工具箱，支持 Word/Excel/PPT 互转", en:"PDF toolbox: convert to/from Office files"} },
       { name: {zh:"PDFgear", en:"PDFgear"}, url: "https://www.pdfgear.com/", cat: "pdf", type: "free", tags: {zh:"PDF 编辑，阅读，签名", en:"PDF Editor, Reader, Sign"}, desc: {zh:"完全免费的 PDF 阅读编辑器，支持注释和电子签名", en:"Completely free PDF reader/editor: annotate and e-sign"} },
@@ -210,8 +207,9 @@
       { name: {zh:"TextIn Tools", en:"TextIn Tools"}, url: "https://tools.textin.com/", cat: "ocr", type: "free", tags: {zh:"AI 识别，票据/表格", en:"AI Recognition, Invoice/Table"}, desc: {zh:"合合信息出品，支持复杂票据、表格、公式识别", en:"By TextIn: complex invoices, tables, formulas"} },
       { name: {zh:"OnlineOCR", en:"OnlineOCR"}, url: "https://www.onlineocr.net/", cat: "ocr", type: "limited", tags: {zh:"PDF 转 Word", en:"PDF to Word"}, desc: {zh:"老牌在线 OCR，每小时限 15 个文件", en:"Classic OCR: 15 files/hour limit"} },
       
-      // 💻 开发/设计 (新增 U 钙 LOGO)
+      // 💻 开发/设计
       { name: {zh:"U 钙 LOGO", en:"U 钙 LOGO"}, url: "https://www.uugai.com/", cat: "dev", type: "free", tags: {zh:"Logo 设计，AI 生成，免费", en:"Logo Design, AI Generator, Free"}, desc: {zh:"输入文字自动生成各种风格的原创 Logo，接单赚钱神器", en:"Auto-generate original logos by inputting text, great for business"} },
+      { name: {zh:"raiw.cc", en:"raiw.cc"}, url: "https://raiw.cc/", cat: "dev", type: "free", tags: {zh:"综合工具箱, 实用小工具, 免注册", en:"Toolbox, Utilities, No Signup"}, desc: {zh:"集合多种实用在线小工具，涵盖转换/查询/生成类，开箱即用", en:"Curated collection of practical online mini-tools: converter/query/generator"} },
       { name: {zh:"Carbon", en:"Carbon"}, url: "https://carbon.now.sh/", cat: "dev", type: "free", tags: {zh:"代码美化，分享图片", en:"Code Beautify, Share Image"}, desc: {zh:"将代码转换为精美图片，支持语法高亮与主题定制", en:"Turn code into beautiful images with syntax highlighting"} },
       { name: {zh:"JSON Formatter", en:"JSON Formatter"}, url: "https://jsonformatter.curiousconcept.com/", cat: "dev", type: "free", tags: {zh:"JSON 校验，格式化", en:"JSON Validator, Formatter"}, desc: {zh:"快速验证、格式化、压缩 JSON 数据，支持语法树", en:"Validate, format, minify JSON with syntax tree"} },
       { name: {zh:"RegExr", en:"RegExr"}, url: "https://regexr.com/", cat: "dev", type: "free", tags: {zh:"正则表达式，在线测试", en:"Regex, Online Tester"}, desc: {zh:"交互式正则表达式测试工具，实时匹配与高亮", en:"Interactive regex tester: real-time match and highlight"} },
