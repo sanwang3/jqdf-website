@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BentoGrid.lol - Create Stunning Bento Grid Showcases in 10 Seconds</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background: #080b11; color: #f3f4f6; display: flex; flex-direction: column; align-items: center; padding: 20px 20px 40px 20px; }
+        
+        /* 🚀 High-converting traffic banner linking back to your main site */
+        .jqdf-banner {
+            width: 100%;
+            max-width: 1150px;
+            background: linear-gradient(90deg, rgba(99, 102, 241, 0.15), rgba(168, 85, 247, 0.15), rgba(99, 102, 241, 0.15));
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 12px;
+            padding: 12px 24px;
+            margin-bottom: 24px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.1);
+        }
+        .jqdf-banner a {
+            color: #c084fc;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.2s, transform 0.2s;
+        }
+        .jqdf-banner a:hover {
+            color: #f472b6;
+            transform: scale(1.01);
+        }
+        .jqdf-banner .sparkle {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; transform: scale(1.1); }
+        }
+
+        /* Layout Styles */
+        main { width: 100%; max-width: 1150px; background: rgba(17, 24, 39, 0.6); padding: 24px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.05); backdrop-filter: blur(12px); display: flex; gap: 24px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
+        .sidebar { width: 240px; display: flex; flex-direction: column; justify-content: space-between; flex-shrink: 0; }
+        .control-group { background: rgba(255, 255, 255, 0.02); padding: 16px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.05); }
+        .btn-export { width: 100%; background: linear-gradient(to right, #6366f1, #a855f7); color: white; font-weight: 600; padding: 14px; border-radius: 10px; border: none; cursor: pointer; box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3); transition: all 0.2s; }
+        .btn-export:hover { opacity: 0.9; }
+        .canvas-container { flex: 1; background: #030712; padding: 24px; border-radius: 12px; border: 1px solid #1f2937; display: flex; align-items: center; justify-content: center; }
+        
+        /* Golden Ratio Canvas Area */
+        #captureArea { width: 800px; height: 420px; background: #0b0f19; padding: 24px; position: relative; border-radius: 24px; border: 1px solid rgba(255,255,255,0.08); overflow: hidden; }
+        #bentoGrid { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); gap: 16px; width: 100%; height: 100%; }
+        .bento-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+        .col-span-2 { grid-column: span 2; }
+        .badge { font-size: 10px; color: #818cf8; background: rgba(99,102,241,0.12); padding: 3px 10px; border-radius: 999px; width: fit-content; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
+        .bento-title { font-size: 1.6rem; font-weight: 700; color: #fff; margin-top: 12px; outline: none; line-height: 1.3; }
+        .bento-hint { font-size: 11px; color: #4b5563; display: flex; align-items: center; gap: 4px; }
+        .stat-card { align-items: center; justify-content: center; text-align: center; }
+        .stat-number { font-size: 2.8rem; font-weight: 800; background: linear-gradient(to right, #f472b6, #fb923c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; color: #fb923c; outline: none; }
+        .stat-label { font-size: 12px; color: #9ca3af; margin-top: 6px; outline: none; }
+        .placeholder-box { position: absolute; top:0; left:0; width:100%; height:100%; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; background: rgba(255,255,255,0.005); z-index: 5; }
+        .preview-img { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; z-index: 2; pointer-events: none; border-radius: 18px; }
+        .hidden { display: none !important; }
+        .watermark { position: absolute; bottom: 8px; right: 16px; font-size: 9px; font-family: monospace; color: #374151; letter-spacing: 0.05em; }
+
+        /* Print / Export Rules */
+        @media print {
+            body * { visibility: hidden; }
+            #captureArea, #captureArea * { visibility: visible; }
+            #captureArea { position: absolute; left: 0; top: 0; width: 800px; height: 420px; border: none; background: #0b0f19 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .bento-hint, .jqdf-banner { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 🚀 Upper Traffic Banner -->
+    <div class="jqdf-banner">
+        <a href="https://jqdf.com" target="_blank">
+            <span class="sparkle">✨</span> Looking for more free tools without registration? Visit <strong>jqdf.com</strong> →
+        </a>
+    </div>
+
+    <header style="text-align: center; margin-bottom: 32px;">
+        <h1 style="font-size: 2.2rem; font-weight: 800; background: linear-gradient(to right, #818cf8, #c084fc, #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">BentoGrid.lol</h1>
+        <p style="color: #9ca3af; font-size: 0.875rem; margin-top: 4px;">Drag and drop screenshots to create pro bento layouts in 10 seconds.</p>
+    </header>
+
+    <main>
+        <div class="sidebar">
+            <div class="control-group">
+                <label style="font-size:0.75rem; color:#9ca3af; font-weight: 600;">Title Color</label>
+                <input type="color" id="titleColor" value="#ffffff" style="width:100%; height: 32px; margin-top:6px; cursor:pointer; background: transparent; border: 1px solid #374151; border-radius: 6px;">
+            </div>
+            <button id="btnExport" class="btn-export">🚀 Export PNG (Free)</button>
+        </div>
+        <div class="canvas-container">
+            <div id="captureArea">
+                <div id="bentoGrid">
+                    <!-- Card 1: Title -->
+                    <div class="bento-card col-span-2">
+                        <div>
+                            <span class="badge">Core Feature</span>
+                            <div id="text1" class="bento-title" contenteditable="true" spellcheck="false">jqdf.com</div>
+                        </div>
+                        <span class="bento-hint">💡 Hint: Click text to edit freely</span>
+                    </div>
+                    <!-- Card 2: Right Top Small Image -->
+                    <div class="bento-card" style="position:relative; padding:0;">
+                        <input type="file" id="file2" class="hidden" accept="image/*" onchange="dealImg(this, 'img2')">
+                        <img id="img2" class="preview-img hidden">
+                        <div class="placeholder-box" onclick="document.getElementById('file2').click()">
+                            <span style="font-size: 28px;">🖼️</span><span style="font-size:11px; color:#9ca3af; margin-top:6px;">Upload Screenshot</span>
+                        </div>
+                    </div>
+                    <!-- Card 3: Left Bottom Stat -->
+                    <div class="bento-card stat-card">
+                        <div class="stat-number" contenteditable="true" spellcheck="false">99.9%</div>
+                        <div class="stat-label" contenteditable="true" spellcheck="false">Product Uptime</div>
+                    </div>
+                    <!-- Card 4: Right Bottom Wide Image -->
+                    <div class="bento-card col-span-2" style="position:relative; padding:0;">
+                        <input type="file" id="file4" class="hidden" accept="image/*" onchange="dealImg(this, 'img4')">
+                        <img id="img4" class="preview-img hidden">
+                        <div class="placeholder-box" onclick="document.getElementById('file4').click()">
+                            <span style="font-size: 28px;">💻</span><span style="font-size:11px; color:#9ca3af; margin-top:6px;">Upload Dashboard View</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="watermark">via ://jqdf.com</div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function dealImg(input, imgId) {
+            if (input.files && input.files[0]) {
+                const r = new FileReader();
+                r.onload = function(e) {
+                    const img = document.getElementById(imgId);
+                    img.src = e.target.result;
+                    img.classList.remove('hidden');
+                    input.parentElement.querySelector('.placeholder-box').classList.add('hidden');
+                }
+                r.readAsDataURL(input.files[0]);
+            }
+        }
+        document.getElementById('titleColor').addEventListener('input', (e) => {
+            document.getElementById('text1').style.color = e.target.value;
+        });
+        document.getElementById('btnExport').addEventListener('click', () => {
+            window.print();
+        });
+    </script>
+</body>
+</html>
